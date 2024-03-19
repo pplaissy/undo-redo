@@ -1,7 +1,5 @@
 # undo-redo
-How to code a drawing undo/redo feature.
-
-An undo/redo drawing feature from scratch, step by step and with a really cool and innovative bonus
+How to code an undo/redo feature from scratch, step by step and with a really cool and innovative bonus
 
 The principle is well known so there's no need to describe it. Let's just remember that we're in the special environment of an SVG editor here, and that undo/redo operations apply to to graphical entities, lines, circles, paths and so on.
 
@@ -67,7 +65,13 @@ The **DrawingAction** ctor initializes the current state "**prevState**" with a 
 
 ```typescript
 private cloneState(e: any): any {
-    return JSON.parse(JSON.stringify(e));
+    // here you need some kind of object cloning method, for example :
+    const result: any = {};
+    const allPropertyNames = Object.getOwnPropertyNames(e);
+    allPropertyNames.forEach(p => {
+        result[p] = Object.getOwnPropertyDescriptor(e, p)?.value;
+    });
+    return result;
 }
 ```
 
@@ -107,8 +111,7 @@ redo(): void {
 
 private switchState(status: UndoStateEnum): void {
     const tmp = this.prevState;
-    // This is a straightforward but unsafe approach. We may loose nested types. 
-    // For production purposes, it should be replaced by a deep cloning method.
+ 
     Object.assign(this.entity, this.prevState);
     this.prevState = this.nextState;
     this.nextState = tmp;
@@ -147,7 +150,7 @@ The service creates a **DrawingAction** for each entity being modified. When the
 actions: DrawingAction[] = [];
 pending: DrawingAction[] = [];
 
-start(es: SelectableSvgEntity[], cudOp: UndoCUDOpEnum = UndoCUDOpEnum.update): void {
+start(es: any[], cudOp: UndoCUDOpEnum = UndoCUDOpEnum.update): void {
     // store a temp array of entities current state
     es.forEach(e => {
         const newAction = new DrawingAction(e, cudOp);
@@ -179,7 +182,7 @@ private checkMax(): void {
 When the modifications are complete, the service receives a request for definitive storage and the temporary table is cleaned out. Of course, this method is never used to create or delete entities.
 
 ```typescript
-store(es: SelectableSvgEntity[]): void {
+store(es: any[]): void {
     // store the entities new state
     es.forEach(e => {
         // entity should be found in temp array
@@ -307,7 +310,7 @@ You may have wondered why the **undoLast** and **redoLast** methods expect an ar
 
 How does it work? If no entities are selected on the drawing, then **undo** or **redo** apply to all actions recorded in **UndoService**. If one or more entities are selected on the drawing, only these will be affected.
 
-A killer feature, isn't it ? And almost code free, watch it in action !
+A killer low code feature, isn't it ? Watch it in action !
 
 ------
 

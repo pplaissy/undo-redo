@@ -31,8 +31,6 @@ export class DrawingAction {
 
     private switchState(status: UndoStateEnum): void {
         const tmp = this.prevState;
-        // This is a straightforward but unsafe approach. We may loose nested types. 
-        // For production purposes, it should be replaced by a deep cloning method.
         Object.assign(this.entity, this.prevState);
         this.prevState = this.nextState;
         this.nextState = tmp;
@@ -40,6 +38,12 @@ export class DrawingAction {
     }
 
     private cloneState(e: any): any {
-        return JSON.parse(JSON.stringify(e));
+        // here you need some kind of object cloning, for example :
+        const result: any = {};
+        const allPropertyNames = Object.getOwnPropertyNames(e);
+        allPropertyNames.forEach(p => {
+            result[p] = Object.getOwnPropertyDescriptor(e, p)?.value;
+        });
+        return result;
     }
 }
