@@ -312,6 +312,10 @@ How does it work? If no entities are selected on the drawing, then **undo** or *
 
 A killer low code feature, isn't it ? Watch it in action !
 
+Let's say I've modified this series of lines and want to go back only on the middle four...
+
+![undoing](img/undo02.gif)
+
 ------
 
 Check also by my [code crumbs](https://code-crumbs.pplaissy.fr/) blog.
