@@ -1,12 +1,13 @@
 # undo-redo
-How to code a drawing undo/redo feature
+How to code a drawing undo/redo feature.
+
 An undo/redo drawing feature from scratch, step by step and with a really cool and innovative bonus
 
 The principle is well known so there's no need to describe it. Let's just remember that we're in the special environment of an SVG editor here, and that undo/redo operations apply to to graphical entities, lines, circles, paths and so on.
 
 A glimpse in action :
 
-![undoing](../assets/img/undo-redo/undo01.gif)
+![undoing](img/undo01.gif)
 
 ## Drawing action
 
@@ -308,5 +309,6 @@ How does it work? If no entities are selected on the drawing, then **undo** or *
 
 A killer feature, isn't it ? And almost code free, watch it in action !
 
+------
 
-
+Check also by my [code crumbs](https://code-crumbs.pplaissy.fr/) blog.
